@@ -1,6 +1,6 @@
 name: zaincash
 description: Zaincash integration.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/karrarkazuya/zaincash_flutter
 repository: https://github.com/karrarkazuya/zaincash_flutter
 
@@ -9,7 +9,6 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  cached_network_image: ^3.2.0
   flutter:
     sdk: flutter
   http: ^0.13.3

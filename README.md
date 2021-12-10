@@ -1,9 +1,9 @@
 # zaincash_flutter
-Zaincash payment gateway integration for flutter
+A none offical Zaincash payment gateway integration for flutter
 
 
 # USE
-First you will need a transaction_id created by using your merchant credentials on backend and then forwarded over to the mobile app
+First you will need a transaction_id created by using your merchant credentials on backend and then forwarded over to the mobile app, if you do not have merchant credentials please contact the zaincash support to get one
 
 Then use zaincash as a widget inside your view
 ```
@@ -17,3 +17,11 @@ And you can listen to the state change events using the listener
       }
   });
 ```
+
+# SCREENSHOTS
+<p float="left">
+<img src="https://github.com/karrarkazuya/zaincash_flutter/blob/main/git_images/1.png" alt="1" height="500">
+<img src="https://github.com/karrarkazuya/zaincash_flutter/blob/main/git_images/2.png" alt="1" height="500">
+<img src="https://github.com/karrarkazuya/zaincash_flutter/blob/main/git_images/3.png" alt="1" height="500">
+<img src="https://github.com/karrarkazuya/zaincash_flutter/blob/main/git_images/4.png" alt="1" height="500">
+</p>

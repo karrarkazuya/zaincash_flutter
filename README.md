@@ -3,7 +3,7 @@ A none offical Zaincash payment gateway integration for flutter
 
 # INSTALL
 
-in yopur project terminal enter
+in your project terminal enter
 ```
   dart pub add zaincash
 ```

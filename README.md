@@ -1,6 +1,12 @@
 # zaincash_flutter
 A none offical Zaincash payment gateway integration for flutter
 
+# INSTALL
+
+in yopur project terminal enter
+```
+  dart pub add zaincash
+```
 
 # USE
 First you will need a transaction_id created by using your merchant credentials on backend and then forwarded over to the mobile app, if you do not have merchant credentials please contact the zaincash support to get one

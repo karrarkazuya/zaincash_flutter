@@ -8,14 +8,14 @@ import 'package:flutter/material.dart';
 
 
 class ZainCash extends StatefulWidget {
-  ZainCash({Key? key, required this.transaction_id, required this.production, required this.close_on_success, required this.close_on_error}) : super(key: key);
+  const ZainCash({Key? key, required this.transactionId, required this.production, required this.closeOnSuccess, required this.closeOnError}) : super(key: key);
 
-  final String transaction_id;
+  final String transactionId;
   final bool production;
-  final bool close_on_success;
-  final bool close_on_error;
+  final bool closeOnSuccess;
+  final bool closeOnError;
   @override
-  PaymentDialog createState() => new PaymentDialog();
+  PaymentDialog createState() => PaymentDialog();
 }
 
 
@@ -25,26 +25,26 @@ int currentStep = 1;
 var detailsData = {};
 var stepOneData = {};
 
-var API = 'api.zaincash.iq';
+var gatewayApi = 'api.zaincash.iq';
 var hint = '';
 var details = Column();
 final TextEditingController _phoneController = TextEditingController();
 final TextEditingController _pinController = TextEditingController();
 final TextEditingController _otpController = TextEditingController();
-final listner = new ZaincashService();
+final listner = ZaincashService();
 
 @override
   void initState() {
     super.initState();
-    this.API = !widget.production ? 'test.zaincash.iq' : 'api.zaincash.iq';
+    gatewayApi = !widget.production ? 'test.zaincash.iq' : 'api.zaincash.iq';
     setLoading();
-    getDetails(widget.transaction_id);
+    getDetails(widget.transactionId);
   }
 
 @override
   void didUpdateWidget(ZainCash oldWidget) {
     super.didUpdateWidget(oldWidget);
-    this.API = !widget.production ? 'test.zaincash.iq' : 'api.zaincash.iq';
+    gatewayApi = !widget.production ? 'test.zaincash.iq' : 'api.zaincash.iq';
     setState(() {
       _otpController.text = '';
       completed = false;
@@ -53,16 +53,17 @@ final listner = new ZaincashService();
       details = Column();
       stepOneData = {};
       setLoading();
-      getDetails(widget.transaction_id);
+      getDetails(widget.transactionId);
     });
   }
 
 
-  void getDetails(String transaction_id) {
-    httpRequester.get("https://"+this.API+"/transaction/pay?id="+transaction_id).then((data){
-        this.detailsData = pageParser().stepOneDetails(data);
-        if(detailsData['error'] != null)
+  void getDetails(String transactionId) {
+    HttpRequester.get("https://$gatewayApi/transaction/pay?id=$transactionId").then((data){
+        detailsData = PageParser().stepOneDetails(data);
+        if(detailsData['error'] != null) {
           currentStep = 3;
+        }
         processSteps();
     });
   }
@@ -82,12 +83,10 @@ void processSteps() {
       }
 }
 
-  /**
-   * step one the pin insertion
-   */
+  /// step one the pin insertion
   step1() {
     setState(() {
-      this.details = Column(
+      details = Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -95,35 +94,35 @@ void processSteps() {
             textDirection: TextDirection.rtl),
           Text(hint, 
             textDirection: TextDirection.rtl),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Text(detailsData['phone_number'], 
             textDirection: TextDirection.rtl),
           Container(
-                padding: EdgeInsets.only(left: 5, right: 5),
+                padding: const EdgeInsets.only(left: 5, right: 5),
                 child: TextFormField(
                   controller: _phoneController,
                 decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
+                  border: const UnderlineInputBorder(),
                   labelText: detailsData['phone_number'].toString(),
-                  labelStyle: TextStyle(fontSize: 15),
+                  labelStyle: const TextStyle(fontSize: 15),
                   hintTextDirection: TextDirection.rtl,
                   alignLabelWithHint: true
                 ),
               ),
               ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
             
           Text(detailsData['pin'], 
             textDirection: TextDirection.rtl),
           Container(
-                padding: EdgeInsets.only(left: 5, right: 5),
+                padding: const EdgeInsets.only(left: 5, right: 5),
                 child: TextFormField(
                   obscureText: true,
                   controller: _pinController,
                 decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
+                  border: const UnderlineInputBorder(),
                   labelText: detailsData['pin_tip'].toString(),
-                  labelStyle: TextStyle(fontSize: 15),
+                  labelStyle: const TextStyle(fontSize: 15),
                   hintTextDirection: TextDirection.rtl,
                   alignLabelWithHint: true
                 ),
@@ -134,18 +133,16 @@ void processSteps() {
   }
 
 
-  /**
-   * showing the otp field and the payment details
-   */
+  /// showing the otp field and the payment details
   step2() {
     setState(() {
-      this.details = Column(
+      details = Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(detailsData['header_2'], 
             textDirection: TextDirection.rtl),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Table(  
             border: TableBorder.all(  
                 color: Colors.black,  
@@ -154,18 +151,18 @@ void processSteps() {
             children: getTableRows()),
           Text(hint, 
             textDirection: TextDirection.rtl),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Text(detailsData['otp'], 
             textDirection: TextDirection.rtl),
           Container(
-                padding: EdgeInsets.only(left: 5, right: 5),
+                padding: const EdgeInsets.only(left: 5, right: 5),
                 child: TextFormField(
                   obscureText: true,
                   controller: _otpController,
                 decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
+                  border: const UnderlineInputBorder(),
                   labelText: detailsData['otp_tip'].toString(),
-                  labelStyle: TextStyle(fontSize: 15),
+                  labelStyle: const TextStyle(fontSize: 15),
                   hintTextDirection: TextDirection.rtl,
                   alignLabelWithHint: true
                 ),
@@ -175,9 +172,7 @@ void processSteps() {
     });
   }
 
- /**
-  * to assing the rows for the table
-  */
+ /// to assing the rows for the table
  getTableRows() {
   var preparedRows = [
     ['initialAmount',['ستقوم بدفع المبلغ :','برى باره دەدەیت','Item Price']],
@@ -192,25 +187,23 @@ void processSteps() {
       for (List<dynamic> preparedRow in preparedRows) {
         for (String suggested in preparedRow[1]) {
           if(item1.replaceAll(' ', '') == suggested.replaceAll(' ', '')){
-            item2 = stepOneData[preparedRow[0]] != null ? stepOneData[preparedRow[0]].toString() + ' IQD' : '0 IQD';
+            item2 = stepOneData[preparedRow[0]] != null ? '${stepOneData[preparedRow[0]]} IQD' : '0 IQD';
           }
           if(item2.replaceAll(' ', '') == suggested.replaceAll(' ', '')){
-            item1 = stepOneData[preparedRow[0]] != null ? stepOneData[preparedRow[0]].toString() + ' IQD' : '0 IQD';
+            item1 = stepOneData[preparedRow[0]] != null ? '${stepOneData[preparedRow[0]]} IQD' : '0 IQD';
           }
         }
       }
       tableChildren.add(
         TableRow( children: [
-          Column(children:[Text(item1, textDirection: TextDirection.rtl, style: TextStyle(fontSize: 15.0))]),
-          Column(children:[Text(item2, textDirection: TextDirection.rtl, style: TextStyle(fontSize: 15.0))]),
+          Column(children:[Text(item1, textDirection: TextDirection.rtl, style: const TextStyle(fontSize: 15.0))]),
+          Column(children:[Text(item2, textDirection: TextDirection.rtl, style: const TextStyle(fontSize: 15.0))]),
         ]));
     }
   return tableChildren;
 }
 
-/**
- * to send the otp request
- */
+/// to send the otp request
 processStep1(){
   setState(() {
     if((!_phoneController.text.startsWith('964') || _phoneController.text.length != 13) && _phoneController.text != ''){
@@ -219,29 +212,39 @@ processStep1(){
     }
     if(_phoneController.text != '' && _pinController.text != ''){
       setLoading();
-      httpRequester.post("https://"+this.API+"/transaction/processing", {
-        "phonenumber": _phoneController.text,
+      String phone = _phoneController.text;
+      if(!phone.startsWith("964")){
+        phone = phone.substring(1, phone.length);
+        phone = "964$phone";
+      }
+      HttpRequester.post("https://$gatewayApi/transaction/processing", {
+        "phonenumber": phone,
         "pin": _pinController.text,
-        "id": widget.transaction_id
+        "id": widget.transactionId
       }).then((data){
-        if(!(data is String) && data['success'] != null && data['success'] == 1){
-          this.stepOneData = data;
+        if(data is! String && data['success'] != null && data['success'] == 1){
+          stepOneData = data;
           currentStep = 2;
           processSteps();
         }else{
+          /// notify the gateway of the bad transaction
+          if(data is! String && data['url'] != null){
+            HttpRequester.get(data['url']);
+          }
+
           ZaincashService.fetch(
             {
               "success": 0,
-              "error": !(data is String) && data['error'] != null ? data['error'] : '',
-              "id": widget.transaction_id
+              "error": data is! String && data['error'] != null ? data['error'] : '',
+              "id": widget.transactionId
             }
           );
-          this.detailsData = {
-            "error": !(data is String) && data['error'] != null ? data['error'] : '',
+          detailsData = {
+            "error": data is! String && data['error'] != null ? data['error'] : '',
             "message": "",
           };
           currentStep = 3;
-          if(widget.close_on_error){
+          if(widget.closeOnError){
             setState(() {
               completed = true;
             });
@@ -254,34 +257,38 @@ processStep1(){
   });
 }
 
-/**
- * to submit the otp request
- */
+/// to submit the otp request
 processStep2(){
   setState(() {
     if(_otpController.text != '' && _phoneController.text.length >= 4){
       setLoading();
-      httpRequester.post("https://"+this.API+"/transaction/processingOTP?type=MERCHANT_PAYMENT", {
-        "phonenumber": _phoneController.text,
+      String phone = _phoneController.text;
+      if(!phone.startsWith("964")){
+        phone = phone.substring(1, phone.length);
+        phone = "964$phone";
+      }
+
+      HttpRequester.post("https://$gatewayApi/transaction/processingOTP?type=MERCHANT_PAYMENT", {
+        "phonenumber": phone,
         "pin": _pinController.text,
         "otp": _otpController.text,
-        "id": widget.transaction_id
+        "id": widget.transactionId
       }).then((data){
-        if(!(data is String) && data['total'] != null){
+        if(data is! String && data['total'] != null){
           currentStep = 3;
-          httpRequester.get(data['url']).then((value){
+          HttpRequester.get(data['url']).then((value){
             ZaincashService.fetch(
               {
                 "success": 1,
-                "id": widget.transaction_id
+                "id": widget.transactionId
               }
             );
           });
-          this.detailsData = {
-            "error": 'payment was successful, total paid ' + data['total'].toString() + ' IQD',
+          detailsData = {
+            "error": 'payment was successful, total paid ${data['total']} IQD',
             "message": "",
           };
-          if(widget.close_on_success){
+          if(widget.closeOnSuccess){
             setState(() {
               completed = true;
             });
@@ -289,21 +296,21 @@ processStep2(){
             processSteps();
           }
         }else{
-          httpRequester.get(data['url']).then((value){
+          HttpRequester.get(data['url']).then((value){
             ZaincashService.fetch(
               {
                 "success": 0,
-                "error": !(data is String) && data['error'] != null ? data['error'] : '',
-                "id": widget.transaction_id
+                "error": data is! String && data['error'] != null ? data['error'] : '',
+                "id": widget.transactionId
               }
             );
           });
-          this.detailsData = {
-            "error": !(data is String) && data['error'] != null ? data['error'] : '',
+          detailsData = {
+            "error": data is! String && data['error'] != null ? data['error'] : '',
             "message": "",
           };
           currentStep = 3;
-          if(widget.close_on_error){
+          if(widget.closeOnError){
             setState(() {
               completed = true;
             });
@@ -317,30 +324,28 @@ processStep2(){
 }
 
 cancelPayment() {
-  httpRequester.post("https://"+this.API+"/transaction/cancel", {
+  HttpRequester.post("https://$gatewayApi/transaction/cancel", {
         "type": 'MERCHANT_PAYMENT',
-        "id": widget.transaction_id
+        "id": widget.transactionId
       });
   setState(() {
           currentStep = 3;
-          this.detailsData = {};
+          detailsData = {};
           completed = true;
         });
-        ZaincashService.fetch(
-            {
-              "success": 0,
-              "error": 'canceled',
-              "id": widget.transaction_id
-            }
-          );
+  ZaincashService.fetch(
+      {
+        "success": 0,
+        "error": 'canceled',
+        "id": widget.transactionId
+      }
+    );
 }
 
-/**
- * set the loading spinner for fetching data
- */
+/// set the loading spinner for fetching data
 setLoading(){
   setState(() {
-    this.details = Column(children: [
+    details = Column(children: const [
         Center(
           child: SizedBox(
             width: 50,
@@ -354,9 +359,7 @@ setLoading(){
   });
 }
 
-/**
- * handling the buttons events
- */
+/// handling the buttons events
 paymentButton(){
   switch (currentStep) {
         case 1:
@@ -376,10 +379,10 @@ paymentButton(){
 
 finalStep() {
   setState(() {
-    this.details = Column(children: [
+    details = Column(children: [
         Text(detailsData['error'], 
           textDirection: TextDirection.rtl),
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         Text(detailsData['message'], 
           textDirection: TextDirection.rtl),
       ],);
@@ -389,19 +392,20 @@ finalStep() {
 
 @override
   Widget build(BuildContext context) {
-    if(completed)
-    return Container();
+    if(completed) {
+      return Container();
+    }
     return AlertDialog(
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          contentPadding: EdgeInsets.all(0),
+          contentPadding: const EdgeInsets.all(0),
           content: SingleChildScrollView(
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
           child: ListBody(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+                decoration: const BoxDecoration(
                   color: Colors.teal,
                   borderRadius: BorderRadius.all(Radius.circular(5))
                 ),
@@ -409,26 +413,31 @@ finalStep() {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(detailsData['title'] != null ? detailsData['title'] : 'Zaincash payment', style: TextStyle(fontSize: 16, color: Colors.white)),
-                  Container(
+                  Text(detailsData['title'] ?? 'Zaincash payment', style: const TextStyle(fontSize: 16, color: Colors.white)),
+                  SizedBox(
                     width: 50,
                     height: 50,
                     child: Image.network('https://api.zaincash.iq/images/zaincashlogo-ar.png'),
                   ),
                 ],
               )),
-              SizedBox(height: 10,),
-              this.details,
+              const SizedBox(height: 10,),
+              details,
             ],
           ),
         ),
         actions: <Widget>[
           if(currentStep != 3)
           TextButton(
-            child: Text(detailsData['button'] != null ? detailsData['button'] : currentStep == 3 ? 'Close' : ''),
             onPressed: paymentButton,
+            child: Text(detailsData['button'] ?? (currentStep == 3 ? 'Close' : '')),
           ),
-          IconButton(onPressed: cancelPayment, icon: Icon(Icons.close))
+          if(currentStep == 3)
+          TextButton(
+            onPressed: paymentButton,
+            child: const Text('Close'),
+          ),
+          IconButton(onPressed: cancelPayment, icon: const Icon(Icons.close))
         ],
       );
   }
@@ -437,7 +446,7 @@ finalStep() {
 
 class ZaincashService {
 
-static StreamController paymentState = new StreamController.broadcast();
+static StreamController paymentState = StreamController.broadcast();
 
 static fetch(object) {
     // fetch json from server and then load it to objects
@@ -449,13 +458,11 @@ static fetch(object) {
 static Stream get paymentStateListener => paymentState.stream;
 }
 
-/**
- * handle the http requests
- */
-class httpRequester {
+/// handle the http requests
+class HttpRequester {
   static Future get(link) async {
     try {
-      HttpClient client = new HttpClient();
+      HttpClient client = HttpClient();
       client.badCertificateCallback =
           ((X509Certificate cert, String host, int port) => true);
       HttpClientRequest request = await client.getUrl(Uri.parse(link));
@@ -469,7 +476,7 @@ class httpRequester {
 
  static Future post(link, input) async {
     try {
-      HttpClient client = new HttpClient();
+      HttpClient client = HttpClient();
       Map map = input;
       HttpClientRequest request = await client.postUrl(Uri.parse(link));
       request.headers.set('content-type', 'application/json');
@@ -478,6 +485,7 @@ class httpRequester {
       request.add(utf8.encode(json.encode(map)));
       HttpClientResponse response = await request.close();
       String reply = await response.transform(utf8.decoder).join();
+
       Map<String, dynamic> data = jsonDecode(reply);
       return data;
     } catch (e) {
@@ -491,11 +499,12 @@ class httpRequester {
 /*
  * used to parse the details of transaction 
  */
-class pageParser {
+class PageParser {
   stepOneDetails(String text) {
-    if(text == '')
+    if(text == '') {
       return {'error': 'Connection issue',
             'message': ''};
+    }
     if(text.contains('<button')){
       return {
         'pay_by_agent': text.contains('name="email"'),
@@ -567,16 +576,20 @@ class pageParser {
       text = text.replaceAll(text.substring(text.indexOf("<"), text.indexOf(">")+1), '');
     }
     text = text.trim().replaceAll(RegExp(r'(\n){3,}'), "\n\n");
-    while(text.startsWith(" "))
+
+    text = text.replaceAll("&nbsp;", "");
+    while(text.startsWith(" ")) {
       text = text.substring(1, text.length);
-    while(text.endsWith(" "))
+    }
+    while(text.endsWith(" ")) {
       text = text.substring(0, text.length - 1);
+    }
 
     if (text.contains(">")) {
-      text = "<" + text;
+      text = "<$text";
       text = clearTags(text);
     } else if (text.contains("<")) {
-      text = text + ">";
+      text = "$text>";
       text = clearTags(text);
     }
     return text;

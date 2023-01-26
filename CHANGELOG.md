@@ -10,3 +10,10 @@
 ## 0.0.3
 
 * Updating the readme
+
+
+## 0.0.4
+
+* Updating the example
+* Updating the code, resolving warnings and issues
+* Updating the readme

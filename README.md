@@ -18,7 +18,12 @@ Then use zaincash as a widget inside your view
 And you can listen to the state change events using the listener
 ```
   ZaincashService.paymentStateListener.listen((state) {
+      /// on success
       if(state['success'] == 1){
+      // TO DO
+      }
+      /// on error
+      if(state['success'] == 0){
       // TO DO
       }
   });

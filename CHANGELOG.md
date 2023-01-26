@@ -17,3 +17,7 @@
 * Updating the example
 * Updating the code, resolving warnings and issues
 * Updating the readme
+
+## 0.0.5
+
+* Updating the readme

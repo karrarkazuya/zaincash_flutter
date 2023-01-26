@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _triggerPayment() {
     setState(() {
-      _zaincash = Container(child: new ZainCash(transaction_id: _controller.text, production: false, close_on_success: true, close_on_error: true));
+      _zaincash = Container(child: new ZainCash(transactionId: _controller.text, production: false, closeOnSuccess: true, closeOnError: true));
     });
   }
 

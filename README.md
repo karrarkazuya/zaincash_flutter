@@ -26,8 +26,8 @@ And you can listen to the state change events using the listener
 
 # SCREENSHOTS
 <p float="left">
-<img src="https://github.com/karrarkazuya/zaincash_flutter/blob/main/git_images/1.png" alt="1" height="500">
-<img src="https://github.com/karrarkazuya/zaincash_flutter/blob/main/git_images/2.png" alt="1" height="500">
-<img src="https://github.com/karrarkazuya/zaincash_flutter/blob/main/git_images/3.png" alt="1" height="500">
-<img src="https://github.com/karrarkazuya/zaincash_flutter/blob/main/git_images/4.png" alt="1" height="500">
+<img src="https://github.com/karrarkazuya/zaincash_flutter/raw/main/git_images/1.png" alt="1" height="500">
+<img src="https://github.com/karrarkazuya/zaincash_flutter/raw/main/git_images/2.png" alt="1" height="500">
+<img src="https://github.com/karrarkazuya/zaincash_flutter/raw/main/git_images/3.png" alt="1" height="500">
+<img src="https://github.com/karrarkazuya/zaincash_flutter/raw/main/git_images/4.png" alt="1" height="500">
 </p>

@@ -1,5 +1,3 @@
-library zaincash;
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -221,7 +219,9 @@ processStep1(){
         "phonenumber": phone,
         "pin": _pinController.text,
         "id": widget.transactionId
-      }).then((data){
+      }).then((response){
+        var data = response[0];
+        var statusCode = response[1];
         if(data is! String && data['success'] != null && data['success'] == 1){
           stepOneData = data;
           currentStep = 2;
@@ -273,8 +273,11 @@ processStep2(){
         "pin": _pinController.text,
         "otp": _otpController.text,
         "id": widget.transactionId
-      }).then((data){
-        if(data is! String && data['total'] != null){
+      }).then((response){
+        var data = response[0];
+        var statusCode = response[1];
+
+        if(statusCode == 200){
           currentStep = 3;
           HttpRequester.get(data['url']).then((value){
             ZaincashService.fetch(
@@ -285,7 +288,7 @@ processStep2(){
             );
           });
           detailsData = {
-            "error": 'payment was successful, total paid ${data['total']} IQD',
+            "error": 'payment was successful',
             "message": "",
           };
           if(widget.closeOnSuccess){
@@ -486,8 +489,10 @@ class HttpRequester {
       HttpClientResponse response = await request.close();
       String reply = await response.transform(utf8.decoder).join();
 
+      
+
       Map<String, dynamic> data = jsonDecode(reply);
-      return data;
+      return [data, response.statusCode];
     } catch (e) {
       return 'no';
     }

@@ -1,0 +1,5 @@
+.packages
+.dart_tool/
+.idea
+example/
+git_images/
